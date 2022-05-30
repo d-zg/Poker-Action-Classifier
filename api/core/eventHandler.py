@@ -195,6 +195,15 @@ class Dealer:
     def runBettingLoop(self, currentPosition): 
         self.lastRaisedID = ""
         self.calledPlayers.clear()
+        # we have 4 (for now, need to include inactive players) categories of players
+        # players who are all in
+        # players who have folded out of a hand
+        # players who are IN a hand, i.e, they have paid the current highest bet
+        # and players who have not made a decision yet
+        # we want to go through every player until every player is one of the first three categories
+        # folding places you in the folded category. Calling, raising, and checking all put in the IN category.
+        # if you raise, you put everyone who was IN in the undecided category.
+        # if you've spent all your money and haven't folded, you don't need to make decisions and are in for the rest of the hand.
         while (len(self.foldedPlayers) + len(self.calledPlayers) + len(self.allInnedPlayers) != len(self.players)):
             if (not self.players[currentPosition] in self.foldedPlayers):
                 if (self.players[currentPosition].stack == 0):
@@ -213,14 +222,31 @@ class Dealer:
         self.runBettingLoop(self.currentBlind + 1)
 
     def playFlop(self):
-        print("The flop comes out as: ") # actually write the code to display this
+        print("\nThe flop comes out as: ") # actually write the code to display this
         self.currentBet = 0
         self.resetPlayerBets()
+        self.runBettingLoop(self.currentBlind - 1)
+    
+    def playTurn(self):
+        print("\nThe turn comes out as: ") # same here
+        self.currentBet = 0
+        self.resetPlayerBets()
+        self.runBettingLoop(self.currentBlind - 1)
+    
+    def playRiver(self):
+        print("\nThe river is: ")
+        self.currentBett = 0
+        self.resetPlayerBets()
+        self.runBettingLoop(self.currentBlind - 1)
 
 
     def playRound(self):
         self.foldedPlayers.clear()
         self.playPreFlop()
+        self.playFlop()
+        self.playTurn()
+        self.playRiver()
+
         # currentPosition = self.currentBlind + 1 % (len(self.players))
 
         # flop happens here
