@@ -10,6 +10,8 @@ class Game:
         self.big_blind: int = big_blind
         self.small_blind: int = small_blind
         self.allPlayers : Dict[str, Player] = [player.id for player in players]
+        for player in players:
+            player.currentGame = self
         self.runningEventLoop : bool = True
         self.dealer = Dealer(players, big_blind, small_blind)
         self.history = Queue()
@@ -32,16 +34,16 @@ class Game:
                 command = player.getAction(self, state) 
                 # then execute the command, updating the game state
                 command.execute() 
-    def __foldPlayer(self, player):
+    def foldPlayer(self, player):
         self.dealer.foldPlayer(player)
         self.history.put("Player " + player.id + " folded.")
-    def __raisePlayer(self, player):
+    def raisePlayer(self, player):
         self.dealer.raisePlayer(player, 500)
         self.history.put("Player " + player.id + " raised.")
-    def __checkPlayer(self, player):
-        self.dealer.checkPlayer()
+    def checkPlayer(self, player):
+        self.dealer.checkPlayer(player)
         self.history.put("Player " + player.id + " checked.")
-    def __callPlayer(self, player):
+    def callPlayer(self, player):
         self.dealer.callPlayer(player)
         self.history.put("Player " + player.id + " called.")
     
@@ -59,19 +61,21 @@ class Player:
     def leaveGame(self):
         self.currentGame = None
     def getAction(self, pot, highestBet, lastRaisedID):
-        self.promptAction(self, pot, highestBet, lastRaisedID)
+        self.promptAction(pot, highestBet, lastRaisedID)
         commandInput = input("Enter your action: ")
         if (commandInput == "fold"):
-            self.currentGame.__foldPlayer(self)
+            self.currentGame.foldPlayer(self)
         if (commandInput == "raise"):
-            self.currentGame.__raisePlayer(self)
+            self.currentGame.raisePlayer(self)
         if (commandInput == "check"):
-            self.currentGame.__checkPlayer()
+            self.currentGame.checkPlayer(self)
+        if (commandInput == "call"):
+            self.currentGame.callPlayer(self)
     def promptAction(self, pot, highestBet, lastRaisedID):
         print("Current pot is " + str(pot))
-        print("\nYou are in for " + str(self.currentBet))
+        print("\nYou, " + self.id + " are in for " + str(self.currentBet))
         print("\n" + str(highestBet - self.currentBet) + "to play.")
-        if (lastRaisedID != self.id):
+        if (lastRaisedID != self.id and highestBet - self.currentBet < self.stack):
             print("\nYou may raise up to " + str(self.stack))
         if (highestBet - self.currentBet == 0):
             print("\nYou may check.")
@@ -81,7 +85,7 @@ class Player:
                 print(". This will put you all in.")
     def changeStack(self, change):
         if (change + self.stack <= 0):
-            print("Player " + self.id + " is all in for: " + self.stack)
+            print("Player " + self.id + " is all in for: " + str(self.stack))
             temp = self.stack
             self.stack = 0
             return temp
@@ -97,18 +101,23 @@ class Dealer:
     def __init__(self, players, big_blind, small_blind):
         self.players = players
         self.foldedPlayers = []
+        self.calledPlayers = []
+        self.allInnedPlayers = []
         self.lastRaisedID: str = ""
         self.big_blind: int = big_blind
         self.small_blind: int = small_blind
         self.pot = 0
-        self.currentBlind = 0
+        self.currentBlind = 0 # represents the position of the big blind. UTG is currentBlind + 1, small blind is currentBlind -1, dealer is currentBlind - 2
         self.currentBet = 0
     def collectBlinds(self):
         self.currentBet = self.big_blind
         received_big = self.players[self.currentBlind].changeStack(-(self.big_blind))
+        self.players[self.currentBlind].currentBet = received_big
         print("Collected " + str(received_big) + " as big blind from " + self.players[self.currentBlind].id)
         self.pot += received_big
         received_small = self.players[self.currentBlind - 1].changeStack(-(self.small_blind))
+        self.players[self.currentBlind - 1].currentBet = received_small
+        print("Collected " + str(received_small) + " as small blind from " + self.players[self.currentBlind - 1].id)
         self.pot += received_small
 
     def foldPlayer(self, player):
@@ -121,11 +130,16 @@ class Dealer:
 
     def raisePlayer(self, player, raiseAmount):
         if (player in self.players and player.id != self.lastRaisedID):
-            player.changeStack(-(raiseAmount))
-            self.pot += raiseAmount
+            coverAmount = self.currentBet - player.currentBet
+            totalAdded = coverAmount + raiseAmount
+            received = player.changeStack(-(totalAdded))
+            player.currentBet = player.currentBet + received
+            self.pot += received
             self.lastRaisedID = player.id
-            self.currentBet = raiseAmount
-            print("Player " + player.id + " has raised to : " + str(raiseAmount))
+            self.currentBet += received
+            self.calledPlayers.clear()
+            self.calledPlayers.append(player)
+            print("Player " + player.id + " has raised to : " + str(self.currentBet))
         else:
             print("Error: this player isn't eligible to raise.")
     
@@ -133,6 +147,7 @@ class Dealer:
         if (player in self.players):
             receivedCall = player.changeStack(-(self.currentBet - player.currentBet))
             self.pot += receivedCall
+            self.calledPlayers.append(player)
             print("Player " + player.id + " has called " + str(self.currentBet))
         else:
             print("Error: this player isn't eligible to call.")
@@ -140,6 +155,7 @@ class Dealer:
     def checkPlayer(self, player):
         if (player in self.players):
             print("Player " + player.id + " checked.")
+            self.calledPlayers.append(player)
         else :
             print("Error: this player isn't eligible to check.")
 
@@ -153,8 +169,42 @@ class Dealer:
             self.foldedPlayers.clear()
     
     def playRound(self):
+        self.lastRaisedID = ""
+        self.foldedPlayers.clear()
+        self.calledPlayers.clear()
         self.collectBlinds()
-        
+        # currentPosition = self.currentBlind + 1 % (len(self.players))
+        currentPosition = 0
+        while (len(self.foldedPlayers) + len(self.calledPlayers) + len(self.allInnedPlayers) != len(self.players)):
+            if (not self.players[currentPosition] in self.foldedPlayers):
+                if (self.players[currentPosition].stack == 0):
+                    self.allInnedPlayers.append(self.players[currentPosition]) if not self.players[currentPosition] in self.calledPlayers else None
+                else: 
+                    self.players[currentPosition].getAction(self.pot, self.currentBet, self.lastRaisedID)
+            currentPosition = (currentPosition + 1) % len(self.players)
+            if (len(self.foldedPlayers) + 1 == len(self.players)):
+                remainingPlayer = list(set(self.players) - set(self.foldedPlayers))
+                self.winPot(remainingPlayer[0])
+                return True
+        # flop happens here
+        self.currentBet = 0
+        currentPosition = self.currentBlind - 1
+        self.calledPlayers.clear()
+        while (len(self.foldedPlayers) + len(self.allInnedPlayers) + len(self.calledPlayers) != len(self.players)):
+            if (not self.players[currentPosition] in self.foldedPlayers):
+                if (self.players[currentPosition].stack == 0):
+                    self.allInnedPlayers.append(self.players[currentPosition]) if not self.players[currentPosition] in self.allInnedPlayers else None
+                    print("\nPlayer " + self.players[currentPosition].id + " is all in. No actions.")
+                else: 
+                    self.players[currentPosition].getAction(self.pot, self.currentBet, self.lastRaisedID)
+            currentPosition = (currentPosition + 1) % len(self.players)
+            if (len(self.foldedPlayers) + 1 == len(self.players)):
+                remainingPlayer = list(set(self.players) - set(self.foldedPlayers))
+                self.winPot(remainingPlayer[0])
+                return True
+    
+
+
         
         
 player1 = Player(1000, "Warringloser")
@@ -162,11 +212,11 @@ player2 = Player(2000, "The goat")
 
 test = Game(10, 5, [player1, player2])
 
-test._Game__foldPlayer(player1)
+test.foldPlayer(player1)
 
-test._Game__raisePlayer(player1)
+test.raisePlayer(player1)
 
-test._Game__callPlayer(player2)
+test.callPlayer(player2)
 
 print(str(player1.stack))
 
@@ -178,6 +228,8 @@ print(str(player2.stack))
 test.dealer.winPot(player1)
 
 print(str(player1.stack))
+
+test.dealer.playRound()
 
 # print(test.dealer.foldedPlayers[0].id)
 
