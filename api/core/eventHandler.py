@@ -1,5 +1,6 @@
 from queue import Queue
 from typing import List, Dict
+from pokerface import *
 
 class Game:
     # def __new__(cls):
@@ -55,6 +56,7 @@ class Player:
         self.id: str = id
         self.currentBet : int = 0
         self.currentGame : Game = None
+        self.hand = []
     def enterGame(self, instance):
         self.currentGame = instance
         # print some recognition that you were entered into this game
@@ -103,8 +105,10 @@ class Player:
         else: 
             self.stack += change
             return -change
-    def currentBet(self, betSize):
-        self.currentBet = betSize
+    def receiveCards(self, hand):
+        self.hand = hand
+        print(self.id + ", you have been dealt: " + str(self.hand))
+
     
 
 
@@ -122,6 +126,8 @@ class Dealer:
         self.sidePot = 0 # TODO: sidepot logic, all in logic. Handle cases where received != what we need 
         self.currentBlind = 0 # represents the position of the big blind. UTG is currentBlind + 1, small blind is currentBlind -1, dealer is currentBlind - 2
         self.currentBet = 0
+        self.deck = None
+        self.communityCards = []
     def collectBlinds(self):
         self.currentBet = self.big_blind
         received_big = self.players[self.currentBlind].changeStack(-(self.big_blind))
@@ -204,7 +210,7 @@ class Dealer:
         # folding places you in the folded category. Calling, raising, and checking all put in the IN category.
         # if you raise, you put everyone who was IN in the undecided category.
         # if you've spent all your money and haven't folded, you don't need to make decisions and are in for the rest of the hand.
-        while (len(self.foldedPlayers) + len(self.calledPlayers) + len(self.allInnedPlayers) != len(self.players)):
+        while (len(self.foldedPlayers) + len(self.calledPlayers) + len(self.allInnedPlayers) != len(self.players) and len(self.allInnedPlayers) + 1 != len(self.players)):
             if (not self.players[currentPosition] in self.foldedPlayers):
                 if (self.players[currentPosition].stack == 0):
                     self.allInnedPlayers.append(self.players[currentPosition]) if not self.players[currentPosition] in self.allInnedPlayers else None
@@ -220,28 +226,36 @@ class Dealer:
     
     def playPreFlop(self):
         self.collectBlinds()
+        self.dealHoleCards()
         return self.runBettingLoop(self.currentBlind + 1)
 
     def playFlop(self):
         print("\nThe flop comes out as: ") # actually write the code to display this
+        self.communityCards += (self.deck.draw(3))
+        print(self.communityCards)
         self.currentBet = 0
         self.resetPlayerBets()
         return self.runBettingLoop(self.currentBlind - 1)
     
     def playTurn(self):
         print("\nThe turn comes out as: ") # same here
+        self.communityCards += (self.deck.draw(1))
+        print(self.communityCards)
         self.currentBet = 0
         self.resetPlayerBets()
         return self.runBettingLoop(self.currentBlind - 1)
     
     def playRiver(self):
         print("\nThe river is: ")
+        self.communityCards += (self.deck.draw(1))
+        print(self.communityCards)
         self.currentBet = 0
         self.resetPlayerBets()
         return self.runBettingLoop(self.currentBlind - 1)
 
 
     def playRound(self):
+        self.deck = StandardDeck()
         self.foldedPlayers.clear()
         gameOver : bool = self.playPreFlop()
         if (not gameOver):
@@ -250,14 +264,32 @@ class Dealer:
             gameOver = self.playTurn()
         if (not gameOver):
             gameOver = self.playRiver()
+        if (not gameOver):
+            for player in self.determineWinner():
+                print(player.id)
 
-        # if not self.playPreFlop():
-        #     if not self.playFlop():
-        #         if not self.playTurn():
-        #             if not self.playRiver():
-        #                 return True
+    def dealToPlayer(self, player):
+        if player in self.players:
+            player.receiveCards(self.deck.draw(2))
 
-
+    def dealHoleCards(self):
+        for player in self.players:
+            self.dealToPlayer(player)
+    
+    def determineWinner(self):
+        evaluator = StandardEvaluator()
+        remainingPlayers = list(set(self.players) - set(self.foldedPlayers))
+        bestHands = []
+        currentBest = None
+        for player in remainingPlayers:
+            currentHandStrength = evaluator.evaluate_hand(player.hand, self.communityCards) 
+            if currentBest == None or currentBest < currentHandStrength:
+                currentBest = currentHandStrength
+                bestHands.clear()
+                bestHands.append(player)
+            elif currentBest == currentHandStrength:
+                bestHands.append(player)
+        return bestHands
 
         
         
