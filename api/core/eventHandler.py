@@ -185,66 +185,79 @@ class Dealer:
             self.pot = 0
             self.currentBet = 0
             self.currentBlind = (self.currentBlind + 1) % (len(self.players))
+            self.resetPlayerBets()
             self.foldedPlayers.clear()
     
     def resetPlayerBets(self):
         for player in self.players:
             player.currentBet = 0
 
-    def playRound(self):
+    def runBettingLoop(self, currentPosition): 
         self.lastRaisedID = ""
-        self.foldedPlayers.clear()
         self.calledPlayers.clear()
+        while (len(self.foldedPlayers) + len(self.calledPlayers) + len(self.allInnedPlayers) != len(self.players)):
+            if (not self.players[currentPosition] in self.foldedPlayers):
+                if (self.players[currentPosition].stack == 0):
+                    self.allInnedPlayers.append(self.players[currentPosition]) if not self.players[currentPosition] in self.allInnedPlayers else None
+                    print("\nPlayer " + self.players[currentPosition].id + " is all in. No actions." )
+                else: 
+                    self.players[currentPosition].getAction(self.pot, self.currentBet, self.lastRaisedID)
+            currentPosition = (currentPosition + 1) % len(self.players)
+            if (len(self.foldedPlayers) + 1 == len(self.players)):
+                remainingPlayer = list(set(self.players) - set(self.foldedPlayers))
+                self.winPot(remainingPlayer[0])
+                return True
+    
+    def playPreFlop(self):
         self.collectBlinds()
+        self.runBettingLoop(self.currentBlind + 1)
+
+    def playFlop(self):
+        print("The flop comes out as: ") # actually write the code to display this
+        self.currentBet = 0
+        self.resetPlayerBets()
+
+
+    def playRound(self):
+        self.foldedPlayers.clear()
+        self.playPreFlop()
         # currentPosition = self.currentBlind + 1 % (len(self.players))
-        currentPosition = self.currentBlind + 1
-        while (len(self.foldedPlayers) + len(self.calledPlayers) + len(self.allInnedPlayers) != len(self.players)):
-            if (not self.players[currentPosition] in self.foldedPlayers):
-                if (self.players[currentPosition].stack == 0):
-                    self.allInnedPlayers.append(self.players[currentPosition]) if not self.players[currentPosition] in self.allInnedPlayers else None
-                    print("\nPlayer " + self.players[currentPosition].id + " is all in. No actions." )
-                else: 
-                    self.players[currentPosition].getAction(self.pot, self.currentBet, self.lastRaisedID)
-            currentPosition = (currentPosition + 1) % len(self.players)
-            if (len(self.foldedPlayers) + 1 == len(self.players)):
-                remainingPlayer = list(set(self.players) - set(self.foldedPlayers))
-                self.winPot(remainingPlayer[0])
-                return True
+
         # flop happens here
-        print("\nThe flop comes out as: ")
-        self.currentBet = 0
-        currentPosition = self.currentBlind - 1
-        self.calledPlayers.clear()
-        self.resetPlayerBets()
-        while (len(self.foldedPlayers) + len(self.calledPlayers) + len(self.allInnedPlayers) != len(self.players)):
-            if (not self.players[currentPosition] in self.foldedPlayers):
-                if (self.players[currentPosition].stack == 0):
-                    self.allInnedPlayers.append(self.players[currentPosition]) if not self.players[currentPosition] in self.allInnedPlayers else None
-                    print("\nPlayer " + self.players[currentPosition].id + " is all in. No actions." )
-                else: 
-                    self.players[currentPosition].getAction(self.pot, self.currentBet, self.lastRaisedID)
-            currentPosition = (currentPosition + 1) % len(self.players)
-            if (len(self.foldedPlayers) + 1 == len(self.players)):
-                remainingPlayer = list(set(self.players) - set(self.foldedPlayers))
-                self.winPot(remainingPlayer[0])
-                return True
-        print("\nThe turn is: ")
-        self.currentBet = 0
-        currentPosition = self.currentBlind - 1
-        self.calledPlayers.clear()
-        self.resetPlayerBets()
-        while (len(self.foldedPlayers) + len(self.calledPlayers) + len(self.allInnedPlayers) != len(self.players)):
-            if (not self.players[currentPosition] in self.foldedPlayers):
-                if (self.players[currentPosition].stack == 0):
-                    self.allInnedPlayers.append(self.players[currentPosition]) if not self.players[currentPosition] in self.allInnedPlayers else None
-                    print("\nPlayer " + self.players[currentPosition].id + " is all in. No actions." )
-                else: 
-                    self.players[currentPosition].getAction(self.pot, self.currentBet, self.lastRaisedID)
-            currentPosition = (currentPosition + 1) % len(self.players)
-            if (len(self.foldedPlayers) + 1 == len(self.players)):
-                remainingPlayer = list(set(self.players) - set(self.foldedPlayers))
-                self.winPot(remainingPlayer[0])
-                return True
+        # print("\nThe flop comes out as: ")
+        # self.currentBet = 0
+        # currentPosition = self.currentBlind - 1
+        # self.calledPlayers.clear()
+        # self.resetPlayerBets()
+        # while (len(self.foldedPlayers) + len(self.calledPlayers) + len(self.allInnedPlayers) != len(self.players)):
+        #     if (not self.players[currentPosition] in self.foldedPlayers):
+        #         if (self.players[currentPosition].stack == 0):
+        #             self.allInnedPlayers.append(self.players[currentPosition]) if not self.players[currentPosition] in self.allInnedPlayers else None
+        #             print("\nPlayer " + self.players[currentPosition].id + " is all in. No actions." )
+        #         else: 
+        #             self.players[currentPosition].getAction(self.pot, self.currentBet, self.lastRaisedID)
+        #     currentPosition = (currentPosition + 1) % len(self.players)
+        #     if (len(self.foldedPlayers) + 1 == len(self.players)):
+        #         remainingPlayer = list(set(self.players) - set(self.foldedPlayers))
+        #         self.winPot(remainingPlayer[0])
+        #         return True
+        # print("\nThe turn is: ")
+        # self.currentBet = 0
+        # currentPosition = self.currentBlind - 1
+        # self.calledPlayers.clear()
+        # self.resetPlayerBets()
+        # while (len(self.foldedPlayers) + len(self.calledPlayers) + len(self.allInnedPlayers) != len(self.players)):
+        #     if (not self.players[currentPosition] in self.foldedPlayers):
+        #         if (self.players[currentPosition].stack == 0):
+        #             self.allInnedPlayers.append(self.players[currentPosition]) if not self.players[currentPosition] in self.allInnedPlayers else None
+        #             print("\nPlayer " + self.players[currentPosition].id + " is all in. No actions." )
+        #         else: 
+        #             self.players[currentPosition].getAction(self.pot, self.currentBet, self.lastRaisedID)
+        #     currentPosition = (currentPosition + 1) % len(self.players)
+        #     if (len(self.foldedPlayers) + 1 == len(self.players)):
+        #         remainingPlayer = list(set(self.players) - set(self.foldedPlayers))
+        #         self.winPot(remainingPlayer[0])
+        #         return True
         
         # while (len(self.foldedPlayers) + len(self.allInnedPlayers) + len(self.calledPlayers) != len(self.players)):
         #     if (not self.players[currentPosition] in self.foldedPlayers):
