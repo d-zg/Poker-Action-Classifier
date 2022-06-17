@@ -102,7 +102,6 @@ class Player:
                 self.getAction(pot, highestBet, lastRaisedID)
             elif (parameters == "1/3"):
                 data.append("Raise one third pot")
-                self.writeInputOutputPairs(data)
                 self.currentGame.raisePlayerThird(self)
             elif (parameters == "pot"):
                 data.append("Raise pot")
@@ -123,11 +122,12 @@ class Player:
         else :
             print("That's not a valid input. Folding " + self.id)
             self.currentGame.foldPlayer(self)
+        self.writeInputOutputPairs(data)
     def writeInputOutputPairs(self, data):
-        with open('danielActions.csv', 'w', encoding='UTF8', newline='') as f:
-            writer = csv.writer(f)
-            writer.writerow(['Amount to play', 'Previous Bet', 'Last Action', 'Position', 'Pot Size', 'stack', 'Equity vs Unknown', 'Action'])
-            writer.writerow(data)
+        with open('danielActions.csv', 'a', newline='') as f:
+            writer_obj = writer(f)
+            writer_obj.writerow(data)
+            f.close()
     def promptAction(self, pot, highestBet, lastRaisedID):
         print("Current pot is " + str(pot))
         print("\nYou, " + self.id + " are in for " + str(self.currentBet))
@@ -355,7 +355,7 @@ class Dealer:
     def getPlayerEquity(self, player): # monte carlo method for getting player equity w/ 2500 sims
         evaluator = StandardEvaluator()
         riversWon = 0
-        for i in range(2500):
+        for i in range(1000):
             potentialDeck = StandardDeck()
             potentialDeck.draw(player.hand)
             potentialDeck.draw(self.communityCards)
@@ -363,8 +363,7 @@ class Dealer:
             potentialRiver = self.communityCards + potentialDeck.draw(5 - len(self.communityCards))
             if (evaluator.evaluate_hand(player.hand, potentialRiver) >= evaluator.evaluate_hand(opponentHand, potentialRiver)):
                 riversWon = riversWon + 1
-        print(riversWon/2500)
-        return riversWon/2500
+        return riversWon/1000
 
     def playGame(self):
         self.inactivePlayers.clear()
@@ -386,3 +385,4 @@ test.dealer.playGame()
 
 # for historymessage in iter(test.history.get, None):
 #     print(historymessage)
+

@@ -1,3 +1,32 @@
 Amount to play,Previous Bet,Last Action,Position,Pot Size,stack,Equity vs Unknown,Action
 5,5,Posted small,-9,15,1995,0.5148,Raise one third pot
-t
+
+5,5,Posted small,-9,15,1995,0.592
+50,10,Posted big,-10,70,990,0.386,Fold
+5,5,Posted small,-10,15,985,0.548
+50,10,Posted big,-9,70,2000,0.532,Call
+0,0,Raise,-10,120,930,0.432
+60,0,Call,-9,180,1950,0.817,Raise pot
+180,60,Raise,-10,420,870,0.431,Fold
+5,5,Posted small,-9,15,2125,0.631,Raise pot
+15,10,Posted big,-10,35,860,0.545,Raise pot
+35,25,Raise pot,-9,85,2105,0.607,Raise pot
+85,60,Raise pot,-10,205,810,0.538,Call
+0,0,Raise pot,-9,290,1985,0.467,Raise one third pot
+96.66666666666667,0,Call,-10,386.6666666666667,725,0.792,Raise pot
+386.6666666666667,96.66666666666667,Raise third pot,-9,870.0,1888.3333333333333,0.497,Fold
+5,5,Posted small,-10,15,1106.6666666666665,0.54,Raise pot
+15,10,Posted big,-9,35,1878.3333333333333,0.612,Raise pot
+35,25,Raise pot,-10,85,1086.6666666666665,0.533,Fold
+5,5,Posted small,-9,15,1908.3333333333333,0.395,Raise pot
+15,10,Posted big,-10,35,1076.6666666666665,0.419,Fold
+5,5,Posted small,-10,15,1071.6666666666665,0.61,Raise pot
+15,10,Posted big,-9,35,1913.3333333333333,0.438,Fold
+5,5,Posted small,-9,15,1908.3333333333333,0.53,Raise pot
+15,10,Posted big,-10,35,1076.6666666666665,0.67,Raise pot
+35,25,Raise pot,-9,85,1888.3333333333333,0.521,Call
+0,0,Call,-9,120,1853.3333333333333,0.342,Check
+0,0,Raise pot,-10,120,1026.6666666666665,0.513,Raise pot
+120,0,Check,-9,240,1853.3333333333333,0.36,Fold
+5,5,Posted small,-10,15,1141.6666666666665,0.64,Raise all in
+1136.6666666666665,10,Posted big,-9,1156.6666666666665,1843.3333333333333,0.633,Fold
