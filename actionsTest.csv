@@ -1,0 +1,130 @@
+5,5,Posted small,-9,15,1995,0.355,Fold
+5,5,Posted small,-10,15,1000,0.41,Fold
+5,5,Posted small,-9,15,1995,0.607,Raise pot
+15,10,Posted big,-10,35,990,0.435,Fold
+5,5,Posted small,-10,15,985,0.582,Raise pot
+15,10,Posted big,-9,35,2000,0.535,Raise pot
+35,25,Raise pot,-10,85,965,0.578,Raise pot
+85,60,Raise pot,-9,205,1950,0.58,Call
+0,0,Raise pot,-10,290,845,0.528,Raise pot
+290,0,Call,-9,580,1865,0.395,Fold
+5,5,Posted small,-9,15,1860,0.602,Raise pot
+15,10,Posted big,-10,35,1125,0.578,Call
+0,0,Raise pot,-9,50,1840,0.482,Check
+0,0,Call,-10,50,1110,0.452,Raise pot
+50,0,Check,-9,100,1840,0.48,Raise pot
+100,50,Raise pot,-10,250,1060,0.474,Fold
+5,5,Posted small,-10,15,1055,0.433,Fold
+5,5,Posted small,-9,15,1940,0.471,Raise pot
+15,10,Posted big,-10,35,1045,0.637,Raise pot
+35,25,Raise pot,-9,85,1920,0.435,Fold
+5,5,Posted small,-10,15,1075,0.384,Fold
+5,5,Posted small,-9,15,1920,0.579,Raise pot
+15,10,Posted big,-10,35,1065,0.486,Fold
+5,5,Posted small,-10,15,1060,0.626,Raise pot
+15,10,Posted big,-9,35,1925,0.462,Call
+0,0,Raise pot,-10,50,1040,0.411,Raise pot
+50,0,Call,-9,100,1910,0.775,Raise pot
+100,50,Raise pot,-10,250,990,0.432,Fold
+5,5,Posted small,-9,15,2005,0.532,Raise pot
+15,10,Posted big,-10,35,980,0.493,Call
+0,0,Raise pot,-9,50,1985,0.494,Check
+0,0,Call,-10,50,965,0.407,Raise one third pot
+16.666666666666668,0,Check,-9,66.66666666666667,1985,0.447,Fold
+5,5,Posted small,-10,15,1010.0,0.564,Raise pot
+15,10,Posted big,-9,35,1975,0.437,Raise pot
+35,25,Raise pot,-10,85,990.0,0.565,Raise pot
+85,60,Raise pot,-9,205,1925,0.446,Call
+0,0,Raise pot,-10,290,870.0,0.556,Raise pot
+290,0,Call,-9,580,1840,0.22,Fold
+5,5,Posted small,-9,15,1835,0.521,Fold
+5,5,Posted small,-10,15,1160.0,0.443,Fold
+5,5,Posted small,-9,15,1835,0.643,Raise pot
+15,10,Posted big,-10,35,1150.0,0.628,Raise pot
+35,25,Raise pot,-9,85,1815,0.615,Raise pot
+85,60,Raise pot,-10,205,1100.0,0.616,Call
+0,0,Raise pot,-9,290,1695,0.796,Raise pot
+290,0,Call,-10,580,1015.0,0.523,Fold
+5,5,Posted small,-10,15,1010.0,0.54,Raise pot
+15,10,Posted big,-9,35,1975,0.579,Fold
+5,5,Posted small,-9,15,1970,0.403,Fold
+5,5,Posted small,-10,15,1025.0,0.604,Raise pot
+15,10,Posted big,-9,35,1960,0.674,Raise pot
+35,25,Raise pot,-10,85,1005.0,0.661,Raise pot
+85,60,Raise pot,-9,205,1910,0.656,Raise all in
+1825,145,Raise pot,-10,2115,885.0,0.625,Call
+5,5,Posted small,-10,15,1000,0.658,Raise pot
+5,5,Posted small,-10,15,1015,0.435,Raise pot
+5,5,Posted small,-10,15,1030,0.41,Raise pot
+5,5,Posted small,-10,15,1000,0.355,Raise pot
+15,10,Posted big,-10,35,1005,0.406,Raise pot
+85,60,Raise pot,-10,205,955,0.452,Fold
+5,5,Posted small,-10,15,950,0.495,Call
+20,10,Call,-10,40,945,0.476,Fold
+5,5,Posted small,-10,15,1000,0.453,Fold
+15,10,Posted big,-10,35,990,0.414,Fold
+5,5,Posted small,-10,15,985,0.468,Call
+15,10,Posted big,-10,35,990,0.497,Raise pot
+85,60,Raise pot,-10,205,940,0.511,Fold
+5,5,Posted small,-10,15,935,0.548,Raise pot
+5,5,Posted small,-10,15,950,0.388,Raise pot
+15,10,Posted big,-10,35,955,0.461,Call
+5,5,Posted small,-10,15,985,0.648,Raise pot
+5,5,Posted small,-10,15,1000,0.485,Raise pot
+5,5,Posted small,-10,15,1015,0.503,Fold
+5,5,Posted small,-10,15,1015,0.593,Raise pot
+5,5,Posted small,-10,15,1030,0.671,Raise pot
+35,25,Raise pot,-10,85,1010,0.679,Raise pot
+15,10,Posted big,-10,35,1085,0.406,Fold
+5,5,Posted small,-10,15,1080,0.798,Raise pot
+5,5,Posted small,-10,15,1095,0.564,Raise pot
+5,5,Posted small,-10,15,1110,0.612,Raise pot
+5,5,Posted small,-10,15,1125,0.531,Raise pot
+5,5,Posted small,-10,15,1140,0.504,Raise pot
+5,5,Posted small,-10,15,1155,0.473,Raise pot
+5,5,Posted small,-10,15,1170,0.487,Raise pot
+15,10,Posted big,-10,35,1175,0.547,Raise pot
+5,5,Posted small,-10,15,1205,0.547,Raise pot
+5,5,Posted small,-10,15,1220,0.626,Raise pot
+5,5,Posted small,-10,15,1235,0.507,Raise pot
+5,5,Posted small,-10,15,1250,0.611,Raise pot
+5,5,Posted small,-10,15,1265,0.44,Fold
+15,10,Posted big,-10,35,1255,0.467,Fold
+5,5,Posted small,-10,15,1250,0.633,Raise pot
+5,5,Posted small,-10,15,1265,0.466,Raise pot
+5,5,Posted small,-10,15,1280,0.844,Raise pot
+5,5,Posted small,-10,15,1295,0.602,Raise pot
+5,5,Posted small,-10,15,1310,0.443,Fold
+5,5,Posted small,-10,15,1310,0.809,Raise pot
+5,5,Posted small,-10,15,1325,0.56,Raise pot
+5,5,Posted small,-10,15,1340,0.5,Raise pot
+15,10,Posted big,-10,35,1345,0.392,Fold
+5,5,Posted small,-10,15,1340,0.48,Raise pot
+5,5,Posted small,-10,15,1355,0.446,Fold
+5,5,Posted small,-10,15,1370,0.425,Fold
+5,5,Posted small,-10,15,1385,0.488,Raise pot
+15,10,Posted big,-10,35,1390,0.601,Raise pot
+5,5,Posted small,-10,15,1420,0.401,Fold
+5,5,Posted small,-10,15,1420,0.387,Fold
+5,5,Posted small,-10,15,1420,0.557,Raise pot
+5,5,Posted small,-10,15,1420,0.573,Raise pot
+5,5,Posted small,-10,15,1435,0.592,Raise pot
+5,5,Posted small,-10,15,1450,0.617,Raise pot
+15,10,Posted big,-10,35,1455,0.5,Raise pot
+85,60,Raise pot,-10,205,1405,0.518,Raise pot
+5,5,Posted small,-10,15,1605,0.6,Raise pot
+5,5,Posted small,-10,15,1620,0.509,Raise pot
+5,5,Posted small,-10,15,1635,0.399,Fold
+15,10,Posted big,-10,35,1625,0.581,Raise pot
+5,5,Posted small,-10,15,1655,0.802,Raise pot
+15,10,Posted big,-10,35,1660,0.627,Raise pot
+85,60,Raise pot,-10,205,1610,0.617,Call
+290,0,Call,-10,580,1525,0.603,Raise pot
+5,5,Posted small,-10,15,2100,0.66,Raise pot
+5,5,Posted small,-10,15,2135,0.54,Raise pot
+35,25,Raise pot,-10,85,2115,0.518,Raise pot
+205,145,Raise pot,-10,495,1995,0.523,Fold
+15,10,Posted big,-10,35,1985,0.461,Fold
+5,5,Posted small,-10,15,1980,0.577,Raise pot
+35,25,Raise pot,-10,85,1960,0.596,Call
+0,0,Call,-10,120,1925,0.45,Check

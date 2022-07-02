@@ -3,7 +3,7 @@ from queue import Queue
 from typing import List, Dict
 from pokerface import *
 from csv import *
-
+from loadModel import *
 
 class Game:
     # def __new__(cls):
@@ -124,7 +124,7 @@ class Player:
             self.currentGame.foldPlayer(self)
         self.writeInputOutputPairs(data)
     def writeInputOutputPairs(self, data):
-        with open('danielActions.csv', 'a', newline='') as f:
+        with open('actionsTest.csv', 'a', newline='') as f:
             writer_obj = writer(f)
             writer_obj.writerow(data)
             f.close()
@@ -153,8 +153,31 @@ class Player:
         self.hand = hand
         print(self.id + ", you have been dealt: " + str(self.hand))
 
-    
-
+class playerAI(Player):
+    def getAction(self, pot, highestBet, lastRaisedID):
+        data = self.currentGame.dealer.getPreActionState(self)
+        action = getPrediction(data)
+        if (action == "check"):
+            data.append("Check")
+            self.currentGame.checkPlayer(self)
+        elif (action == "call"):
+            data.append("Call")
+            self.currentGame.callPlayer(self)
+        elif (action == "fold"):
+            data.append("Fold")
+            self.currentGame.foldPlayer(self)
+        elif (action == "raise 1/3"):
+            data.append("raise one third pot")
+            self.currentGame.raisePlayerThird(self)
+        elif (action == "raise pot"):
+            data.append("raise pot")
+            self.currentGame.raisePlayerPot(self)
+        elif (action == "raise all in"):
+            data.append("raise all in")
+            self.currentGame.raisePlayerAllIn(self)
+        else :
+            print("That's not a valid input. Folding " + self.id)
+            self.currentGame.foldPlayer(self)
 
 class Dealer:
     def __init__(self, players, big_blind, small_blind):
@@ -289,7 +312,7 @@ class Dealer:
         return self.runBettingLoop((self.currentBlind + 1) % (len(self.players)))
 
     def playFlop(self):
-        print("\nThe flop comes out as: ") # actually write the code to display this
+        print("\nThe flop comes out as: ") 
         self.communityCards += (self.deck.draw(3))
         print(self.communityCards)
         self.currentBet = 0
@@ -297,7 +320,7 @@ class Dealer:
         return self.runBettingLoop(self.currentBlind - 1)
     
     def playTurn(self):
-        print("\nThe turn comes out as: ") # same here
+        print("\nThe turn comes out as: ") 
         self.communityCards += (self.deck.draw(1))
         print(self.communityCards)
         self.currentBet = 0
@@ -326,7 +349,7 @@ class Dealer:
         if (not gameOver):
             for player in self.determineWinner():
                 print("\n" + player.id + " wins the hand with " + str(player.hand))
-                self.winPot(player) # this is wrong, change it so that each player wins 1/nth the pot
+                self.winPot(player) # todo: sidepot logic
         self.communityCards.clear()
 
     def dealToPlayer(self, player):
@@ -377,7 +400,7 @@ class Dealer:
 
         
 player1 = Player(1000, "Warringloser")
-player2 = Player(2000, "The goat")
+player2 = playerAI(2000, "The goat")
 
 test = Game(10, 5, [player1, player2])
 
