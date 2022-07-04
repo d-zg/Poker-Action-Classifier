@@ -178,6 +178,8 @@ class playerAI(Player):
         else :
             print("That's not a valid input. Folding " + self.id)
             self.currentGame.foldPlayer(self)
+    def receiveCards(self, hand):
+        self.hand = hand
 
 class Dealer:
     def __init__(self, players, big_blind, small_blind):
@@ -266,12 +268,14 @@ class Dealer:
     def winPot(self, player):
         if (player in self.players):
             player.changeStack(self.pot)
-            print("Player " + player.id + " won the pot of " + str(self.pot))
+            print("Player " + player.id + " won the pot of " + str(self.pot) + " with the hand " + str(player.hand))
             self.pot = 0
             self.currentBet = 0
             self.currentBlind = (self.currentBlind + 1) % (len(self.players))
             self.resetPlayerBets()
             self.foldedPlayers.clear()
+        for player in self.players:
+            print("Player " + player.id + " held " + str(player.hand))
     
     def resetPlayerBets(self):
         for player in self.players:
@@ -378,7 +382,7 @@ class Dealer:
     def getPlayerEquity(self, player): # monte carlo method for getting player equity w/ 2500 sims
         evaluator = StandardEvaluator()
         riversWon = 0
-        for i in range(1000):
+        for i in range(3000):
             potentialDeck = StandardDeck()
             potentialDeck.draw(player.hand)
             potentialDeck.draw(self.communityCards)
@@ -386,7 +390,7 @@ class Dealer:
             potentialRiver = self.communityCards + potentialDeck.draw(5 - len(self.communityCards))
             if (evaluator.evaluate_hand(player.hand, potentialRiver) >= evaluator.evaluate_hand(opponentHand, potentialRiver)):
                 riversWon = riversWon + 1
-        return riversWon/1000
+        return riversWon/3000
 
     def playGame(self):
         self.inactivePlayers.clear()
@@ -398,9 +402,21 @@ class Dealer:
         remainingPlayers = list(set(self.players) - set(self.inactivePlayers))
         print(remainingPlayers[0].id + " wins.")
 
+
+class situationPredictor():
+    def situationToPrediction():
+        stack = input('StackSize?')
+        hand = input('Hand?')
+        communityCards = input('Community cards?')
+        pot = input('pot?')
+        amountToPlay = input('How much to play?')
+        position = input('position?')
+        
+
+
         
 player1 = Player(1000, "Warringloser")
-player2 = playerAI(2000, "The goat")
+player2 = playerAI(1000, "The goat")
 
 test = Game(10, 5, [player1, player2])
 

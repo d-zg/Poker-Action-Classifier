@@ -55,7 +55,7 @@ def getPrediction(features):
             i = i+1
         return(actionMap[current])
 
-print(getPrediction([233.3333333,0,'Raise pot',-10,933.3333333,1015,0.752]))
+getPrediction([233.3333333,0,'Raise pot',-10,933.3333333,1015,0.752])
 
 # actions_train = pd.read_csv('danielActions.csv', names=['amountToPlay', 'previousBet', 'lastAction', 'position', 'potSize', 'stack', 'equityVsUnknown', 'action'])
 

@@ -132,7 +132,7 @@ print(action_labels)
 
 def action_model(preprocessing_head, inputs): # takes the model we constructed before
   body = tf.keras.Sequential([
-    layers.Dense(12, activation=tf.nn.relu),
+    layers.Dense(32, activation=tf.nn.relu),
     tf.keras.layers.Dense(6, activation=tf.nn.softmax)
   ])
 
@@ -145,32 +145,32 @@ def action_model(preprocessing_head, inputs): # takes the model we constructed b
   return model
 
 ourModel = action_model(action_preprocessing, inputs)
-history = ourModel.fit(x=action_features_dict, y=action_labels, epochs=20) # handles normalization and feature value indexing on its own! don't need to preprocess
+history = ourModel.fit(x=action_features_dict, y=action_labels, epochs=100) # handles normalization and feature value indexing on its own! don't need to preprocess
 
 print("\n\n\nhistory: ")
 print(history.history)
 
 
 
-result = ourModel.evaluate(test_features_dict, final_test_labels, batch_size= 55, verbose=2)
+result = ourModel.evaluate(test_features_dict, final_test_labels, batch_size= 86, verbose=2)
 print("test loss, test acc:", result)
 
-print("gen predictions for 3 samples")
-predictions = ourModel.predict(action_features_dict)
-print("leng: ", len(predictions))
+# print("gen predictions for 3 samples")
+# predictions = ourModel.predict(action_features_dict)
+# print("leng: ", len(predictions))
 
-actionMap = ['check', 'call', 'fold', 'raise 1/3', 'raise pot', 'raise all in']
-for prediction in predictions:
-    max = 0
-    current = -1
-    i = 0
-    for action in prediction:
-        if action > max:
-            max = action
-            current = i 
-        i = i+1
-    print(actionMap[current])
+# actionMap = ['check', 'call', 'fold', 'raise 1/3', 'raise pot', 'raise all in']
+# for prediction in predictions:
+#     max = 0
+#     current = -1
+#     i = 0
+#     for action in prediction:
+#         if action > max:
+#             max = action
+#             current = i 
+#         i = i+1
+#     print(actionMap[current])
 
-print("\n\n\n\n\n\n")
-print(action_features_dict)
-# ourModel.save('my_model')
+# print("\n\n\n\n\n\n")
+
+ourModel.save('my_model')
