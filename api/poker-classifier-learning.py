@@ -132,7 +132,7 @@ print(action_labels)
 
 def action_model(preprocessing_head, inputs): # takes the model we constructed before
   body = tf.keras.Sequential([
-    layers.Dense(32, activation=tf.nn.relu),
+    layers.Dense(50, activation=tf.nn.relu),
     tf.keras.layers.Dense(6, activation=tf.nn.softmax)
   ])
 
@@ -145,7 +145,7 @@ def action_model(preprocessing_head, inputs): # takes the model we constructed b
   return model
 
 ourModel = action_model(action_preprocessing, inputs)
-history = ourModel.fit(x=action_features_dict, y=action_labels, epochs=100) # handles normalization and feature value indexing on its own! don't need to preprocess
+history = ourModel.fit(x=action_features_dict, y=action_labels, epochs=50) # handles normalization and feature value indexing on its own! don't need to preprocess
 
 print("\n\n\nhistory: ")
 print(history.history)
