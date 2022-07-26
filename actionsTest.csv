@@ -130,3 +130,6 @@
 0,0,Call,-10,120,930,0.698,Raise one third pot
 160.0,40.0,Raise third pot,-10,360.0,890.0,0.702,Raise all in
 15,10,Posted big,-10,35,990,0.37766666666666665,Raise all in
+15,10,Posted big,-10,35,990,0.5296666666666666
+15,10,Posted big,-10,35,990,0.6763333333333333,Raise pot
+85,60,Raise pot,-10,205,940,0.6673333333333333,Raise all in

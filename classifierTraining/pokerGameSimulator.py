@@ -133,11 +133,11 @@ class Player:
         print("\nYou, " + self.id + " are in for " + str(self.currentBet))
         print("\n" + str(highestBet - self.currentBet) + "to play.")
         if (lastRaisedID != self.id and highestBet - self.currentBet < self.stack):
-            print("\nYou may raise up to " + str(self.stack - (highestBet - self.currentBet)))
+            print("\nYou may raise up to " + str(self.stack - (highestBet - self.currentBet)) + ". Type raise ")
         if (highestBet - self.currentBet == 0):
-            print("\nYou may check.")
+            print("\nYou may check. Type check")
         else: 
-            print("\nYou may call with stack " + str(self.stack))
+            print("\nYou may call with stack " + str(self.stack) + ". Type call")
             if (self.stack <= highestBet - self.currentBet):
                 print(". This will put you all in.")
     def changeStack(self, change):
