@@ -6,7 +6,7 @@ const PORT = 8080;
 
 action = null
 
-const runGetPrediction = (position, communityCards, holeCards, pot, amountToPlay, previousBet, lastAction, stack) => {
+runGetPrediction = () => {
     console.log('Loading model and getting prediction')
     let process = spawn("python3", ['./server/getPrediction.py', position, communityCards, holeCards, pot, amountToPlay, previousBet, lastAction, stack])
 

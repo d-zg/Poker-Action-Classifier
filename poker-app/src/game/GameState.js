@@ -13,14 +13,14 @@ import {
   TABLE_JOINED,
   TABLE_LEFT,
   TABLE_UPDATED,
-} from '../../../server/pokergame/actions'
-// import authContext from '../auth/authContext';
+} from '../../pokergame/actions';
+import authContext from '../auth/authContext';
 import socketContext from '../../websocket/socketContext';
 import GameContext from './gameContext';
 
 const GameState = ({ history, children }) => {
   const { socket } = useContext(socketContext);
-  // const { loadUser } = useContext(authContext);
+  const { loadUser } = useContext(authContext);
 
   const [messages, setMessages] = useState([]);
   const [currentTable, setCurrentTable] = useState(null);
@@ -72,6 +72,7 @@ const GameState = ({ history, children }) => {
       socket.on(TABLE_LEFT, ({ tables, tableId }) => {
         console.log(TABLE_LEFT, tables, tableId);
         setCurrentTable(null);
+        loadUser(localStorage.token);
         setMessages([]);
       });
     }
