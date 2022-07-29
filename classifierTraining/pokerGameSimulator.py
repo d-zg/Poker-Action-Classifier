@@ -403,14 +403,19 @@ class Dealer:
         print(remainingPlayers[0].id + " wins.")
 
 
-class situationPredictor():
-    def situationToPrediction():
-        stack = input('StackSize?')
-        hand = input('Hand?')
-        communityCards = input('Community cards?')
-        pot = input('pot?')
-        amountToPlay = input('How much to play?')
-        position = input('position?')
+def situationPredictor(communityCards, holeCards, pot, amountToPlay, previousBet, lastAction, stack, position):
+    evaluator = StandardEvaluator()
+    riversWon = 0
+    for i in range(3000):
+        potentialDeck = StandardDeck()
+        potentialDeck.draw(holeCards)
+        potentialDeck.draw(communityCards)
+        opponentHand = potentialDeck.draw(2)
+        potentialRiver = communityCards + potentialDeck.draw(5 - len(communityCards))
+        if (evaluator.evaluate_hand(hand, potentialRiver) >= evaluator.evaluate_hand(opponentHand, potentialRiver)):
+            riversWon = riversWon + 1
+    equityVsUnKnown = riversWon/3000
+    return getPrediction([])
         
 
 

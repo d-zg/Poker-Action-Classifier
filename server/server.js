@@ -4,7 +4,6 @@ const cors = require("cors");
 const app = express();
 const PORT = 8080;
 
-action = null
 
 const runGetPrediction = (position, communityCards, holeCards, pot, amountToPlay, previousBet, lastAction, stack) => {
     console.log('Loading model and getting prediction')
@@ -19,13 +18,13 @@ const runGetPrediction = (position, communityCards, holeCards, pot, amountToPlay
         console.log(`Python process exited with code ${code}`)
     });
 
-    action = result 
+    return result
 }
 
 app.use(express.json());
 app.use(cors());
 
-app.get("/", (req, res) => {
+app.post("/", (req, res) => {
     communityCards = req.communityCards
     holeCards = req.holeCards
     pot = req.pot
@@ -34,15 +33,21 @@ app.get("/", (req, res) => {
     lastAction = req.lastAction
     stack = req.stack
     position = req.position
-    runGetPrediction(position, communityCards, holeCards, pot, amountToPlay, previousBet, lastAction, stack)
+    action = runGetPrediction(position, communityCards, holeCards, pot, amountToPlay, previousBet, lastAction, stack)
+    console.log(position)
     if (action == null) {
         // If action is null, the python script hasn't finished so send status 425
+        console.log('null')
         res.status(425).send("Scraper has not yet finished running");
     } else {
         // If scrapedData is populated, send it with status 200
         res.status(200).send(action);
     }
 });
+
+app.get("/api", (req, res) => {
+    console.log('test')
+})
 
 app.listen(PORT, () => {
     console.log(`Backend active on http://localhost:${PORT}`);
