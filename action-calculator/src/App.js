@@ -114,7 +114,7 @@ const App = () => {
   const getAction = async (url, data) => {
     console.log('Sending request')
     console.log(JSON.stringify(data))
-    await fetch(url, { 
+    const newData = await fetch(url, { 
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -122,7 +122,7 @@ const App = () => {
       },
       body: JSON.stringify(data)
     })
-    // return newData
+    return newData
   }
   
   const testGet = async (value) => {
@@ -130,6 +130,20 @@ const App = () => {
     console.log('here')
     console.log(vector.position)
     getAction('/', vector)
+  }
+
+  const calculateAction = async () => {
+    const cards = calculateOdds(...selectedCards())
+    const hand = cards.hand
+    const community = cards.community
+    var modelPosition =- -9
+    if (bigBlind) {
+      modelPosition = -10
+    }
+    const vector = new Features(community, hand, potSize, amountToPlay, previousBet, lastAction, stackSize, modelPosition)
+    const odds = await getAction('/', vector).then(res => res.json(), res => console.log(`req failed: ${res}`))
+    console.log(odds)
+    setState({ ...state, odds })
   }
 
   return (
@@ -148,6 +162,9 @@ const App = () => {
       </div>
       <div>
         <Button onClick={testGet}>testGet: {actionList[lastAction]}</Button>
+      </div>
+      <div>
+        <Button onClick={calculateAction}>testCalc: {actionList[lastAction]}</Button>
       </div>
       <div>
       <TextField

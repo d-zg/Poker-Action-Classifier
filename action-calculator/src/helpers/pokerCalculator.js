@@ -24,6 +24,7 @@ const calculateOdds = (player1, table, player2) => {
 
   console.log(pokerfaceCommunity)
   console.log(pokerfaceHand)
+  return({hand: pokerfaceHand, community: pokerfaceCommunity})
 
 
   // const { equities } = OddsCalculator.calculate(...groups)

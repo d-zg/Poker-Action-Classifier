@@ -17,9 +17,7 @@ const OddsDisplay = ({ odds, enable, resetTable, getAndShowOdds }) => (
     <div className="results-container">
       {odds ? (
         <>
-          <p>Player 1 Win: {odds.p1}%</p>
-          <p>Player 2 Win: {odds.p2}%</p>
-          <p>Split Pot: {odds.tie}%</p>
+          <p>I would: {JSON.stringify(odds)}%</p>
         </>
       ) : (
         <p>Results will appear here...</p>

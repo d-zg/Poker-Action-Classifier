@@ -9,20 +9,29 @@ currentAction = null
 
 const runGetPrediction =   (position, communityCards, holeCards, pot, amountToPlay, previousBet, lastAction, stack) => {
     console.log('Loading model and getting prediction')
-    let process = spawn("python", ['./server/getPrediction.py', position, communityCards, holeCards, pot, amountToPlay, previousBet, lastAction, stack])
+    return new Promise((resolve, reject) => {
+        let process = spawn("python", ['./server/getPrediction.py', position, communityCards, holeCards, pot, amountToPlay, previousBet, lastAction, stack])
 
-    let result = []
-    process.stdout.on("data", (data) => { // these are returning fucking promises
-        result.push(data.toString());
-        console.log("stdout: " + data.toString());
-    });   
-    process.stderr.on("data", data => {
-        console.error(`stderr: ${data}`)
+        let result = []
+        process.stdout.on("data", (data) => { // these are returning fucking promises
+            result.push(data.toString());
+        });   
+        process.stderr.on("data", data => {
+            console.error(`stderr: ${data}`)
+        })
+        process.on("close", (code) => {
+            console.log(`Python process exited with code ${code}`)
+            if (code === 0) {
+                resolve(result.at(-1))
+            } else {
+                reject(`Process failed with code ${code}`)
+            }
+        })
+        process.on('error', (err) => {
+            reject(err)
+        })
     })
-    process.on("close", (code) => {
-        console.log(`Python process exited with code ${code}`)
-        return result.at(-1)
-    })
+    
     // the problem is that we have no idea when/whether this returns anything
     // so .on is basically entirely promise based
     // we want to find a way to say, wait a certain amount of time until exit code 0
@@ -42,10 +51,18 @@ app.post("/",  async (req, res) => {
     lastAction = req.body.lastAction
     stack = req.body.stack 
     position = req.body.position
-    action = await runGetPrediction(position, communityCards, holeCards, pot, amountToPlay, previousBet, lastAction, stack)
+    try {
+        action = await runGetPrediction(position, communityCards, holeCards, pot, amountToPlay, previousBet, lastAction, stack)
+        console.log(action)
+        res.status(200).send(action)
+    }
+    catch (err) {
+        console.error(err)
+        res.status(425).send('Inference failed')
+    }
+    
     // then here, we have to figure out how to say, now that we have this either resolved or failed promise, do something with it
     // which as far as i know should be thru await but this bullshit below is going off instantly
-    console.log('finished inference')
     
     // action.then((data) => {
     //     console.log(data)
