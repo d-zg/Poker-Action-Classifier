@@ -19,26 +19,30 @@ def situationPredictor(communityCards, holeCards, pot, amountToPlay, previousBet
     riversWon = 0
     convertedHand = []
     convertedCommunityCards = []
-    print('here are hole : \n\nn\n\n\nn\n\n')
-    print(holeCards)
-    for card in holeCards:
+    for card in holeCards.split(','):
         convertedHand.append(parse_card(card))
-    for card in communityCards:
-        convertedCommunityCards.append(parse_card(card))
-    print(convertedCommunityCards)
-    print(convertedHand)
+    if len(communityCards) > 0:
+        for card in communityCards.split(','):
+            convertedCommunityCards.append(parse_card(card))
     for i in range(3000):
         potentialDeck = StandardDeck()
-        potentialDeck.draw(holeCards)
+        potentialDeck.draw(convertedHand)
         if len(communityCards) != 0:
-            potentialDeck.draw(communityCards)
+            potentialDeck.draw(convertedCommunityCards)
         opponentHand = potentialDeck.draw(2)
-        potentialRiver = communityCards + potentialDeck.draw(5 - len(communityCards))
-        if (evaluator.evaluate_hand(holeCards, potentialRiver) >= evaluator.evaluate_hand(opponentHand, potentialRiver)):
+        potentialRiver = convertedCommunityCards + potentialDeck.draw(5 - len(communityCards))
+        if (evaluator.evaluate_hand(convertedHand, potentialRiver) >= evaluator.evaluate_hand(opponentHand, potentialRiver)):
             riversWon = riversWon + 1
     equityVsUnKnown = riversWon/3000
     features = [amountToPlay, previousBet, lastAction, position, pot, stack, equityVsUnKnown]
     return runInference(features)
 
-print(json.dumps(situationPredictor(communityCards, holeCards, pot, amountToPlay, previousBet, lastAction, stack, position)))
+# for card in holeCards:
+#     sys.stdout.write(card)
+#     sys.stdout.write('\n')
+
+# sys.stdout.write(str(holeCards.split(',')))
+sys.stdout.write(json.dumps(situationPredictor(communityCards, holeCards, pot, amountToPlay, previousBet, lastAction, stack, position)))
 sys.stdout.flush()
+
+sys.exit(0)

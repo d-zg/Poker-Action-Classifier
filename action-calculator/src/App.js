@@ -113,6 +113,7 @@ const App = () => {
 
   const getAction = async (url, data) => {
     console.log('Sending request')
+    console.log(JSON.stringify(data))
     await fetch(url, { 
       method: 'POST',
       headers: {
@@ -127,6 +128,7 @@ const App = () => {
   const testGet = async (value) => {
     const vector = new Features([], ['2h', '2d'], 100, 10, 10, 'Posted big', 1000, 1)
     console.log('here')
+    console.log(vector.position)
     getAction('/', vector)
   }
 
