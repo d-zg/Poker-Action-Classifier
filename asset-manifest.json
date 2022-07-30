@@ -1,0 +1,21 @@
+{
+  "files": {
+    "main.css": "/react-poker-calculator/static/css/main.014842fc.chunk.css",
+    "main.js": "/react-poker-calculator/static/js/main.6e7edf33.chunk.js",
+    "main.js.map": "/react-poker-calculator/static/js/main.6e7edf33.chunk.js.map",
+    "runtime-main.js": "/react-poker-calculator/static/js/runtime-main.67286e3d.js",
+    "runtime-main.js.map": "/react-poker-calculator/static/js/runtime-main.67286e3d.js.map",
+    "static/js/2.c47ef7e0.chunk.js": "/react-poker-calculator/static/js/2.c47ef7e0.chunk.js",
+    "static/js/2.c47ef7e0.chunk.js.map": "/react-poker-calculator/static/js/2.c47ef7e0.chunk.js.map",
+    "index.html": "/react-poker-calculator/index.html",
+    "precache-manifest.6ad9499eeaec75933b9364a8ab4491b5.js": "/react-poker-calculator/precache-manifest.6ad9499eeaec75933b9364a8ab4491b5.js",
+    "service-worker.js": "/react-poker-calculator/service-worker.js",
+    "static/css/main.014842fc.chunk.css.map": "/react-poker-calculator/static/css/main.014842fc.chunk.css.map"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.67286e3d.js",
+    "static/js/2.c47ef7e0.chunk.js",
+    "static/css/main.014842fc.chunk.css",
+    "static/js/main.6e7edf33.chunk.js"
+  ]
+}
