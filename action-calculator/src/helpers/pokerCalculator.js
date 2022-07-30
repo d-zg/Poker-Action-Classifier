@@ -9,7 +9,7 @@ const calculateOdds = (player1, table, player2) => {
   const communityCards = getGroup(table)
   // clubs are 1, diamonds 2, hearts are 3 , spades 4
   const suits = ['c', 'd', 'h', 's']
-  const ranks = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 'J', 'Q', 'K', 'A']
+  const ranks = [1, 2, 3, 4, 5, 6, 7, 8, 9, 'T', 'J', 'Q', 'K', 'A']
   const pokerfaceHand = []
   const pokerfaceCommunity = []
   for (var i = 0; i < myHand.length; ++i) {

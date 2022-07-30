@@ -20,10 +20,13 @@ def situationPredictor(communityCards, holeCards, pot, amountToPlay, previousBet
     convertedHand = []
     convertedCommunityCards = []
     for card in holeCards.split(','):
+        print(card)
         convertedHand.append(parse_card(card))
     if len(communityCards) > 0:
         for card in communityCards.split(','):
+            print(card)
             convertedCommunityCards.append(parse_card(card))
+    
     for i in range(3000):
         potentialDeck = StandardDeck()
         potentialDeck.draw(convertedHand)

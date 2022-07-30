@@ -136,7 +136,7 @@ const App = () => {
     const cards = calculateOdds(...selectedCards())
     const hand = cards.hand
     const community = cards.community
-    var modelPosition =- -9
+    var modelPosition = -9
     if (bigBlind) {
       modelPosition = -10
     }
@@ -159,12 +159,6 @@ const App = () => {
       </div>
       <div>
         <Button onClick={onChangeLastAction}>Last action: {actionList[lastAction]}</Button>
-      </div>
-      <div>
-        <Button onClick={testGet}>testGet: {actionList[lastAction]}</Button>
-      </div>
-      <div>
-        <Button onClick={calculateAction}>testCalc: {actionList[lastAction]}</Button>
       </div>
       <div>
       <TextField
@@ -191,7 +185,7 @@ const App = () => {
         />
       </div>
       
-      <OddsDisplay {...{ enable, getAndShowOdds, resetTable, odds }} />
+      <OddsDisplay {...{ enable, calculateAction, resetTable, odds }} />
     </div>
   )
 }
