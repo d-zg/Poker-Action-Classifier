@@ -3,6 +3,8 @@ Trained a neural network to play heads-up poker like me. Also created a web app 
 
 Used tensorflow + keras to train the classifier. React for the web app frontend, node for the backend. Full game app in progress 
 
+![alt text](https://github.com/d-zg/Poker-Action-Classifier/blob/main/Screenshot%202023-01-21%20121145.jpg)
+
 To play poker with the neural network through the command line, run classifierTraining/pokerGameSimulator.py 
 
 To run a web app to see what the neural network would predict given hole cards, community cards, and the rest of those features above, use
